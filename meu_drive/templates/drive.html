@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Drive Local</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 50px; }
+        .drive-container { background: white; width: 600px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: #333; }
+        .upload-area { border: 2px dashed #cbd5e0; padding: 30px; text-align: center; border-radius: 10px; margin-bottom: 20px; cursor: pointer; }
+        .file-list { list-style: none; padding: 0; }
+        .file-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; }
+        .btn-download { color: #4299e1; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="drive-container">
+        <h2>📂 Meu Drive Local</h2>
+        
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            Clique aqui para enviar arquivos
+            <input type="file" id="fileInput" style="display:none" onchange="upload()">
+        </div>
+
+        <ul class="file-list">
+            {% for arquivo in arquivos %}
+            <li class="file-item">
+                <span>📄 {{ arquivo }}</span>
+                <a href="/download/{{ arquivo }}" class="btn-download">Baixar</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        async function upload() {
+            const fileInput = document.getElementById('fileInput');
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            const response = await fetch('/upload', { method: 'POST', body: formData });
+            if (response.ok) {
+                location.reload(); // Recarrega a página para mostrar o novo arquivo
+            }
+        }
+    </script>
+</body>
+</html>
