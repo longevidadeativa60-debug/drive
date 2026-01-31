@@ -32,8 +32,5 @@ def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    # O Render define uma variável de ambiente chamada 'PORT'
-    # Se não encontrar, ele usa a 10000 por padrão
-    import os
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+    # Tem que ser 0.0.0.0 para aceitar conexões do Wi-Fi
+    app.run(host='0.0.0.0', port=8000)
